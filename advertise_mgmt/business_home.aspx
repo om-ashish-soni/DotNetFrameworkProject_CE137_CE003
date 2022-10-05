@@ -5,25 +5,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <style>
+        body{
+            background-color:cornsilk;
+            font-size:20px;
+            font-family: 'Century Gothic';
+        }
+        #form1{
+            margin-top:1%;
+        }
+        h1{
+            font-family: Papyrus;
+        }
+        #signin_btn,#news_add_submit_btn,#news_add_submit_btn0,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
+            color:white;
+            background-color:orange;
+            border-radius:10px;
+            outline:none;
+            border:none;
+            width:40%;
+            font-size:24px;
+        }
+        #Email_Id_Input,#Password_Input,#Business_Name_Input{
+            outline:none;
+            border:none;     
+            border-bottom:2px solid black;
+            font-size:20px;
+        }
+    </style>
 </head>
 <body>
+    <center>
+    <h1>Business Home - Advertise Management System</h1>
     <form id="form1" runat="server">
+
         <div>
             <asp:Button ID="crt_news_channel_advertise_btn" runat="server" Height="34px" OnClick="show_news_paper_add_create_action" Text="Create News Paper Advertise" Width="516px" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="crt_tv_channel_advertise_btn" runat="server" Height="34px" OnClick="show_tv_channel_advertice_action" Text="Create Tv Channel Advertise" Width="516px" />
         </div>
+        
         <asp:Panel ID="news_paper_advertise_panel_form" runat="server" Visible="False">
-            News Paper Advertise Form<br />
+            <h2>News Paper Advertise Form</h2>
             <br />
             Advertise Name :
             <asp:TextBox ID="news_advertise_name_inp" runat="server"></asp:TextBox>
             <br />
-            <br />
             <asp:RadioButtonList ID="news_paper_inp" runat="server" DataSourceID="news_paper_list" DataTextField="Name" DataValueField="Id">
             </asp:RadioButtonList>
             <asp:SqlDataSource ID="news_paper_list" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Id] FROM [News_Paper]"></asp:SqlDataSource>
-            <br />
             <br />
             Image Source Url :
             <asp:TextBox ID="image_source_url_inp" runat="server"></asp:TextBox>
@@ -42,7 +72,8 @@
             <asp:Button ID="news_add_submit_btn" runat="server" Height="29px" OnClick="create_news_advertise_submit_btn_click" Text="Create Advertise" Width="242px" />
         </asp:Panel>
         <asp:Panel ID="tv_channel_advertise_panel_form" runat="server" Visible="False">
-            TV Channel Advertise Form<br />
+            
+            <h2>TV Channel Advertise Form</h2>
             <br />
             Advertise Name :
             <asp:TextBox ID="tv_channel_advertise_name_inp" runat="server"></asp:TextBox>
@@ -70,7 +101,7 @@
             <br />
         </asp:Panel>
         <asp:Panel ID="Panel1" runat="server">
-            Pending News Paper Advertises
+            <h2>Pending News Paper Advertises</h2>
             <br />
             <asp:GridView ID="pending_news_paper_advertise_grid" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="Id" DataSourceID="pending_news_paper_advertises" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
@@ -102,7 +133,9 @@
         <br />
         <asp:Panel ID="Panel4" runat="server">
             <br />
-            Pending Tv Channel Advertises<br />
+            
+            <h2>Pending Tv Channel Advertises</h2>
+            <br />
             <asp:GridView ID="pending_tv_channel_advertise_grid" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataSourceID="pending_tv_channel_advertise" GridLines="Vertical">
                 <AlternatingRowStyle BackColor="#DCDCDC" />
                 <Columns>
@@ -132,7 +165,9 @@
         </asp:Panel>
         <asp:Panel ID="Panel2" runat="server">
             <br />
-            Accepted News Paper Advertises<br />
+            
+            <h2>Accepted News Paper Advertises</h2>
+            <br />
             <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" DataSourceID="accepted_news_paper_advertise" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
                 <Columns>
@@ -163,7 +198,9 @@
         </asp:Panel>
         <asp:Panel ID="Panel3" runat="server">
             <br />
-            Accepted Tv Channel Advertises<br />
+            
+            <h2>Accepted Tv Channel Advertises</h2>
+            <br />
             <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" DataSourceID="accepted_tv_channel_advertise" ForeColor="Black" GridLines="None">
                 <AlternatingRowStyle BackColor="PaleGoldenrod" />
                 <Columns>
@@ -190,5 +227,6 @@
             </asp:SqlDataSource>
         </asp:Panel>
     </form>
+    </center>
 </body>
 </html>
