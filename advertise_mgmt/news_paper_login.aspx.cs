@@ -50,6 +50,26 @@ namespace advertise_mgmt
 
 
         }
+        protected int get_news_paper_id(SqlConnection con, string Email, string Password)
+        {
+            string command = "SELECT Id From News_Paper WHERE Email=@Email and Password=@Password";
+            //Console.WriteLine("command : " + command);
+
+            using (SqlCommand cmd = new SqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@Password", Password);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        return rdr.GetInt32(0);
+                    }
+                }
+                return -1;
+            }
+        }
         protected void submit_btn_click(object sender, EventArgs e)
         {
             string Email = Email_Id_Input.Text;
@@ -62,6 +82,12 @@ namespace advertise_mgmt
                 {
                     if(is_existing_news_paper(con, Email, Password))
                     {
+                        int News_Paper_Id = get_news_paper_id(con, Email, Password);
+                        Response.Write(News_Paper_Id);
+                        HttpCookie tv_channel_cookie = new HttpCookie("news_paper_id_cookie");
+                        tv_channel_cookie.Value = News_Paper_Id.ToString();
+                        tv_channel_cookie.Expires = DateTime.Now.AddDays(1);
+                        Response.SetCookie(tv_channel_cookie);
                         Response.Redirect("news_paper_home.aspx");
                     }
                     else

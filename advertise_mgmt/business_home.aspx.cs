@@ -88,7 +88,28 @@ namespace advertise_mgmt
 
 
         }
+        protected string get_business_name(SqlConnection con, string id)
+        {
 
+            string command = "SELECT Name From Business WHERE Id=@id";
+            Console.WriteLine("command : " + command);
+
+            using (SqlCommand cmd = new SqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        string name = rdr.GetString(0);
+                        rdr.Close();
+                        return name;
+                    }
+                }
+                return "-1";
+            }
+        }
         protected void create_news_advertise_submit_btn_click(object sender, EventArgs e)
         {
             if(news_paper_inp.SelectedItem == null)
@@ -101,6 +122,7 @@ namespace advertise_mgmt
             string source = image_source_url_inp.Text;
             string date = news_paper_display_date_inp.Text;
             string business_id = Request.Cookies["business_id_cookie"].Value;
+            
             string Add_Type = Add_Type_inp.SelectedItem.Value;
             //Response.Write("Add_Type : " + Add_Type);
             //Response.Write("business id : " + business_id);
@@ -113,6 +135,9 @@ namespace advertise_mgmt
             {
                 using (con)
                 {
+                    string Business_Name = get_business_name(con, business_id);
+                    Response.Write(Business_Name);
+                    
                     string news_paper_id = news_paper_inp.SelectedItem.Value;
                     string news_paper = news_paper_inp.SelectedItem.Text;
                     //Response.Write("news_paper_id : " + news_paper_id+"<br>");
@@ -123,11 +148,12 @@ namespace advertise_mgmt
                     //Response.Write(news_paper_id);
                     if (true)
                     {
-                        string command = "INSERT INTO News_Paper_Advertise(Name,Business_Id,News_Paper_Id,News_Paper,Source,Add_Type,Date) VALUES(@Name,@Business_Id,@News_Paper_Id,@News_Paper,@Source,@Add_Type,@Date)";
+                        string command = "INSERT INTO News_Paper_Advertise(Name,Business_Id,Business_Name,News_Paper_Id,News_Paper,Source,Add_Type,Date) VALUES(@Name,@Business_Id,@Business_Name,@News_Paper_Id,@News_Paper,@Source,@Add_Type,@Date)";
                         using (SqlCommand cmd = new SqlCommand(command, con))
                         {
                             cmd.Parameters.AddWithValue("@Name", name);
                             cmd.Parameters.AddWithValue("@Business_Id", business_id);
+                            cmd.Parameters.AddWithValue("@Business_Name", Business_Name);
                             cmd.Parameters.AddWithValue("@News_Paper_Id", news_paper_id);
                             cmd.Parameters.AddWithValue("@News_Paper", news_paper);
                             cmd.Parameters.AddWithValue("@Source", source);
@@ -179,6 +205,7 @@ namespace advertise_mgmt
             {
                 using (con)
                 {
+                    string Business_Name = get_business_name(con, business_id);
                     string tv_channel_id = tv_channel_inp.SelectedItem.Value;
                     string tv_channel = tv_channel_inp.SelectedItem.Text;
                     //Response.Write("tv_channel_id : " + tv_channel_id + "<br>");
@@ -189,11 +216,12 @@ namespace advertise_mgmt
                     if (true)
                     {
                         
-                        string command = "INSERT INTO Tv_Channel_Advertise(Name,Business_Id,Tv_Channel_Id,Tv_Channel,Source,Frequency,Date) VALUES(@Name,@Business_Id,@Tv_Channel_Id,@Tv_Channel,@Source,@Frequency,@Date)";
+                        string command = "INSERT INTO Tv_Channel_Advertise(Name,Business_Id,Business_Name,Tv_Channel_Id,Tv_Channel,Source,Frequency,Date) VALUES(@Name,@Business_Id,@Business_Name,@Tv_Channel_Id,@Tv_Channel,@Source,@Frequency,@Date)";
                         using (SqlCommand cmd = new SqlCommand(command, con))
                         {
                             cmd.Parameters.AddWithValue("@Name", name);
                             cmd.Parameters.AddWithValue("@Business_Id", business_id);
+                            cmd.Parameters.AddWithValue("@Business_Name", Business_Name);
                             cmd.Parameters.AddWithValue("@Tv_Channel_Id", tv_channel_id);
                             cmd.Parameters.AddWithValue("@Tv_Channel", tv_channel);
                             cmd.Parameters.AddWithValue("@Source", source);

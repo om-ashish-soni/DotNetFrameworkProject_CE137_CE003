@@ -32,10 +32,10 @@ namespace advertise_mgmt
             con.Open();
             return con;
         }
-        protected bool is_existing_news_paper(SqlConnection con, string Email)
+        protected bool is_existing_business(SqlConnection con, string Email)
         {
             string command = "SELECT Email From Business WHERE Email=@Email";
-            Console.WriteLine("command : " + command);
+            //Console.WriteLine("command : " + command);
 
             using (SqlCommand cmd = new SqlCommand(command, con))
             {
@@ -85,7 +85,7 @@ namespace advertise_mgmt
             {
                 using (con)
                 {
-                    if (is_existing_news_paper(con, Email))
+                    if (is_existing_business(con, Email))
                     {
                         Response.Write("user with this email , already existing , please fill wisely");
                         return;

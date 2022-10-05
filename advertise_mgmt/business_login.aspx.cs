@@ -31,7 +31,7 @@ namespace advertise_mgmt
             con.Open();
             return con;
         }
-        protected bool is_existing_news_paper(SqlConnection con, string Email, string Password)
+        protected bool is_existing_business(SqlConnection con, string Email, string Password)
         {
             string command = "SELECT Email From Business WHERE Email=@Email and Password=@Password";
             Console.WriteLine("command : " + command);
@@ -81,7 +81,7 @@ namespace advertise_mgmt
             {
                 using (con)
                 {
-                    if (is_existing_news_paper(con, Email, Password))
+                    if (is_existing_business(con, Email, Password))
                     {
                         int business_id = get_business_id(con, Email, Password);
                         Response.Write("id : ");

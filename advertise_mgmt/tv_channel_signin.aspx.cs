@@ -49,6 +49,28 @@ namespace advertise_mgmt
 
 
         }
+        protected int get_tv_channel_id(SqlConnection con, string Email, string Password)
+        {
+            string command = "SELECT Id From Tv_Channel WHERE Email=@Email and Password=@Password";
+            Console.WriteLine("command : " + command);
+
+            using (SqlCommand cmd = new SqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@Password", Password);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        return rdr.GetInt32(0);
+                    }
+                }
+                return -1;
+            }
+
+
+        }
         protected void submit_btn_click(object sender, EventArgs e)
         {
             //Response.Write(News_Paper_Name_Input.Text);
@@ -75,7 +97,15 @@ namespace advertise_mgmt
                         cmd.Parameters.AddWithValue("@Password", Password);
                         cmd.Parameters.AddWithValue("@Name", Name);
                         cmd.ExecuteNonQuery();
+
+                        int Tv_Channel_Id = get_tv_channel_id(con, Email, Password);
+                        Response.Write(Tv_Channel_Id);
+                        HttpCookie tv_channel_cookie = new HttpCookie("tv_channel_cookie");
+                        tv_channel_cookie.Value = Tv_Channel_Id.ToString();
+                        tv_channel_cookie.Expires = DateTime.Now.AddDays(1);
+                        Response.SetCookie(tv_channel_cookie);
                         Response.Redirect("tv_channel_home.aspx");
+                        //Response.Redirect("tv_channel_home.aspx");
                     }
 
 
