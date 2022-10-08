@@ -75,7 +75,6 @@ namespace advertise_mgmt
         {
             string Email = Email_Id_Input.Text;
             string Password = Password_Input.Text;
-            //Response.Write("Logging you in ....<br/>");
             SqlConnection con = getCon();
             try
             {

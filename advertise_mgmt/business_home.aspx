@@ -17,7 +17,7 @@
         h1{
             font-family: Papyrus;
         }
-        #signin_btn,#news_add_submit_btn,#news_add_submit_btn0,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
+        #logout_btn,#signin_btn,#news_add_submit_btn,#news_add_submit_btn0,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
             color:white;
             background-color:orange;
             border-radius:10px;
@@ -25,6 +25,11 @@
             border:none;
             width:40%;
             font-size:24px;
+        }
+        #logout_btn{
+            width:10%;
+            background-color:tomato;
+            color:white;
         }
         #Email_Id_Input,#Password_Input,#Business_Name_Input{
             outline:none;
@@ -40,9 +45,10 @@
     <form id="form1" runat="server">
 
         <div>
-            <asp:Button ID="crt_news_channel_advertise_btn" runat="server" Height="34px" OnClick="show_news_paper_add_create_action" Text="Create News Paper Advertise" Width="516px" />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="crt_tv_channel_advertise_btn" runat="server" Height="34px" OnClick="show_tv_channel_advertice_action" Text="Create Tv Channel Advertise" Width="516px" />
+            <asp:Button ID="crt_news_channel_advertise_btn" runat="server"  OnClick="show_news_paper_add_create_action" Text="Create News Paper Advertise" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="crt_tv_channel_advertise_btn" runat="server" OnClick="show_tv_channel_advertice_action" Text="Create Tv Channel Advertise"  />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="logout_btn" runat="server" Text="Logout" OnClick="logout_btn_click" />
+            &nbsp;
         </div>
         
         <asp:Panel ID="news_paper_advertise_panel_form" runat="server" Visible="False">
@@ -103,11 +109,11 @@
         <asp:Panel ID="Panel1" runat="server">
             <h2>Pending News Paper Advertises</h2>
             <br />
-            <asp:GridView ID="pending_news_paper_advertise_grid" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="Id" DataSourceID="pending_news_paper_advertises" ForeColor="#333333" GridLines="None">
+            <asp:GridView ID="pending_news_paper_advertise_grid" runat="server" AutoGenerateColumns="False" CellPadding="4" DataSourceID="pending_news_paper_advertises" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
                 <Columns>
-                    <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
                     <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                    <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" />
                     <asp:BoundField DataField="Reason" HeaderText="Reason" SortExpression="Reason" />
                     <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type" />
                     <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
@@ -123,7 +129,7 @@
                 <SortedDescendingCellStyle BackColor="#FCF6C0" />
                 <SortedDescendingHeaderStyle BackColor="#820000" />
             </asp:GridView>
-            <asp:SqlDataSource ID="pending_news_paper_advertises" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Id], [Name], [Reason], [Add_Type], [Date], [News_Paper] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([Business_Id] = @Business_Id)) ORDER BY [Date] DESC">
+            <asp:SqlDataSource ID="pending_news_paper_advertises" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name],[Source], [Reason], [Add_Type], [Date], [News_Paper] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([Business_Id] = @Business_Id)) ORDER BY [Date] DESC">
                 <SelectParameters>
                     <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
                     <asp:CookieParameter CookieName="business_id_cookie" Name="Business_Id" Type="Int32" />
@@ -141,6 +147,7 @@
                 <Columns>
                     <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                     <asp:BoundField DataField="Tv_Channel" HeaderText="Tv_Channel" SortExpression="Tv_Channel" />
+                    <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" />
                     <asp:BoundField DataField="Reason" HeaderText="Reason" SortExpression="Reason" />
                     <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
                     <asp:BoundField DataField="Frequency" HeaderText="Frequency" SortExpression="Frequency" />
@@ -156,7 +163,7 @@
                 <SortedDescendingCellStyle BackColor="#CAC9C9" />
                 <SortedDescendingHeaderStyle BackColor="#000065" />
             </asp:GridView>
-            <asp:SqlDataSource ID="pending_tv_channel_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Tv_Channel], [Reason], [Cost], [Frequency], [Date] FROM [Tv_Channel_Advertise] WHERE (([Business_Id] = @Business_Id) AND ([Accepted] = @Accepted))">
+            <asp:SqlDataSource ID="pending_tv_channel_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Tv_Channel],[Source],[Reason], [Cost], [Frequency], [Date] FROM [Tv_Channel_Advertise] WHERE (([Business_Id] = @Business_Id) AND ([Accepted] = @Accepted))">
                 <SelectParameters>
                     <asp:CookieParameter CookieName="business_id_cookie" Name="Business_Id" Type="Int32" />
                     <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
@@ -173,6 +180,7 @@
                 <Columns>
                     <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                     <asp:BoundField DataField="News_Paper" HeaderText="News_Paper" SortExpression="News_Paper" />
+                    <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" />
                     <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type" />
                     <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
                     <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
@@ -188,7 +196,7 @@
                 <SortedDescendingCellStyle BackColor="#E9EBEF" />
                 <SortedDescendingHeaderStyle BackColor="#4870BE" />
             </asp:GridView>
-            <asp:SqlDataSource ID="accepted_news_paper_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [News_Paper], [Add_Type], [Cost], [Date] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([Business_Id] = @Business_Id))">
+            <asp:SqlDataSource ID="accepted_news_paper_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [News_Paper], [Source],[Add_Type], [Cost], [Date] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([Business_Id] = @Business_Id))">
                 <SelectParameters>
                     <asp:Parameter DefaultValue="Yes" Name="Accepted" Type="String" />
                     <asp:CookieParameter CookieName="business_id_cookie" Name="Business_Id" Type="Int32" />
@@ -206,6 +214,7 @@
                 <Columns>
                     <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                     <asp:BoundField DataField="Tv_Channel" HeaderText="Tv_Channel" SortExpression="Tv_Channel" />
+                    <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" />
                     <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
                     <asp:BoundField DataField="Frequency" HeaderText="Frequency" SortExpression="Frequency" />
                     <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
@@ -219,7 +228,7 @@
                 <SortedDescendingCellStyle BackColor="#E1DB9C" />
                 <SortedDescendingHeaderStyle BackColor="#C2A47B" />
             </asp:GridView>
-            <asp:SqlDataSource ID="accepted_tv_channel_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Tv_Channel], [Cost], [Frequency], [Date] FROM [Tv_Channel_Advertise] WHERE (([Business_Id] = @Business_Id) AND ([Accepted] = @Accepted))">
+            <asp:SqlDataSource ID="accepted_tv_channel_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Tv_Channel], [Source], [Cost], [Frequency], [Date] FROM [Tv_Channel_Advertise] WHERE (([Business_Id] = @Business_Id) AND ([Accepted] = @Accepted))">
                 <SelectParameters>
                     <asp:CookieParameter CookieName="business_id_cookie" Name="Business_Id" Type="Int32" />
                     <asp:Parameter DefaultValue="Yes" Name="Accepted" Type="String" />

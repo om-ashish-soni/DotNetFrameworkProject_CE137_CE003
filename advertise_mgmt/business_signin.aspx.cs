@@ -35,7 +35,6 @@ namespace advertise_mgmt
         protected bool is_existing_business(SqlConnection con, string Email)
         {
             string command = "SELECT Email From Business WHERE Email=@Email";
-            //Console.WriteLine("command : " + command);
 
             using (SqlCommand cmd = new SqlCommand(command, con))
             {
@@ -73,13 +72,9 @@ namespace advertise_mgmt
         }
         protected void submit_btn_click(object sender, EventArgs e)
         {
-            //Response.Write(News_Paper_Name_Input.Text);
-            //Response.Write(Email_Id_Input.Text);
-            //Response.Write(Password_Input.Text);
             string Name = Business_Name_Input.Text;
             string Email = Email_Id_Input.Text;
             string Password = Password_Input.Text;
-            //Response.Write("signing you up ....<br/>");
             SqlConnection con = getCon();
             try
             {

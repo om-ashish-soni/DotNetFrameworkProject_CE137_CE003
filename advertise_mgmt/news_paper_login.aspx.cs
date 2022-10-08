@@ -53,7 +53,7 @@ namespace advertise_mgmt
         protected int get_news_paper_id(SqlConnection con, string Email, string Password)
         {
             string command = "SELECT Id From News_Paper WHERE Email=@Email and Password=@Password";
-            //Console.WriteLine("command : " + command);
+            
 
             using (SqlCommand cmd = new SqlCommand(command, con))
             {
@@ -74,7 +74,7 @@ namespace advertise_mgmt
         {
             string Email = Email_Id_Input.Text;
             string Password = Password_Input.Text;
-            //Response.Write("Logging you in ....<br/>");
+            
             SqlConnection con = getCon();
             try
             {
@@ -84,10 +84,10 @@ namespace advertise_mgmt
                     {
                         int News_Paper_Id = get_news_paper_id(con, Email, Password);
                         Response.Write(News_Paper_Id);
-                        HttpCookie tv_channel_cookie = new HttpCookie("news_paper_id_cookie");
-                        tv_channel_cookie.Value = News_Paper_Id.ToString();
-                        tv_channel_cookie.Expires = DateTime.Now.AddDays(1);
-                        Response.SetCookie(tv_channel_cookie);
+                        HttpCookie news_paper_cookie = new HttpCookie("news_paper_id_cookie");
+                        news_paper_cookie.Value = News_Paper_Id.ToString();
+                        news_paper_cookie.Expires = DateTime.Now.AddDays(1);
+                        Response.SetCookie(news_paper_cookie);
                         Response.Redirect("news_paper_home.aspx");
                     }
                     else

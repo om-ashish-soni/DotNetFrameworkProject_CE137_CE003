@@ -13,18 +13,20 @@ namespace advertise_mgmt
         {
             if (Request.Cookies["news_paper_id_cookie"] == null)
             {
-                //Response.Write("is null");
-                Response.Redirect("tv_channel_login.aspx");
+                
+                Response.Redirect("news_paper_login.aspx");
             }
-            else
-            {
-                //string tv_channel_id = Request.Cookies["news_paper_id_cookie"].Value;
-                //Response.Write(tv_channel_id);
-            }
+           
         }
         protected void GridView3_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
             GridView4.DataBind();
+        }
+        protected void logout_btn_click(object sender, EventArgs e)
+        {
+            Response.Write("clicked logout");
+            Response.Cookies["news_paper_id_cookie"].Expires = DateTime.Now.AddDays(-1);
+            Response.Redirect("login_options.aspx");
         }
     }
 }

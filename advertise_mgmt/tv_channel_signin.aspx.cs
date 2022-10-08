@@ -73,13 +73,10 @@ namespace advertise_mgmt
         }
         protected void submit_btn_click(object sender, EventArgs e)
         {
-            //Response.Write(News_Paper_Name_Input.Text);
-            //Response.Write(Email_Id_Input.Text);
-            //Response.Write(Password_Input.Text);
+            
             string Name = Tv_Channel_Name_Input.Text;
             string Email = Email_Id_Input.Text;
             string Password = Password_Input.Text;
-            //Response.Write("signing you up ....<br/>");
             SqlConnection con = getCon();
             try
             {
@@ -105,7 +102,6 @@ namespace advertise_mgmt
                         tv_channel_cookie.Expires = DateTime.Now.AddDays(1);
                         Response.SetCookie(tv_channel_cookie);
                         Response.Redirect("tv_channel_home.aspx");
-                        //Response.Redirect("tv_channel_home.aspx");
                     }
 
 

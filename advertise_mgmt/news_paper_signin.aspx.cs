@@ -49,15 +49,32 @@ namespace advertise_mgmt
 
             
         }
+        protected int get_news_paper_id(SqlConnection con, string Email, string Password)
+        {
+            string command = "SELECT Id From News_Paper WHERE Email=@Email and Password=@Password";
+
+
+            using (SqlCommand cmd = new SqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@Email", Email);
+                cmd.Parameters.AddWithValue("@Password", Password);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        return rdr.GetInt32(0);
+                    }
+                }
+                return -1;
+            }
+        }
         protected void submit_btn_click(object sender, EventArgs e)
         {
-            //Response.Write(News_Paper_Name_Input.Text);
-            //Response.Write(Email_Id_Input.Text);
-            //Response.Write(Password_Input.Text);
+            
             string Name = News_Paper_Name_Input.Text;
             string Email = Email_Id_Input.Text;
             string Password = Password_Input.Text;
-            //Response.Write("signing you up ....<br/>");
             SqlConnection con= getCon();
             try
             {
@@ -75,6 +92,11 @@ namespace advertise_mgmt
                         cmd.Parameters.AddWithValue("@Password",Password);
                         cmd.Parameters.AddWithValue("@Name", Name);
                         cmd.ExecuteNonQuery();
+                        int News_Paper_Id = get_news_paper_id(con, Email, Password);
+                        HttpCookie news_paper_cookie = new HttpCookie("news_paper_id_cookie");
+                        news_paper_cookie.Value = News_Paper_Id.ToString();
+                        news_paper_cookie.Expires = DateTime.Now.AddDays(1);
+                        Response.SetCookie(news_paper_cookie);
                         Response.Redirect("news_paper_home.aspx");
                     }
                     

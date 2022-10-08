@@ -42,6 +42,15 @@ namespace advertise_mgmt
         protected global::System.Web.UI.WebControls.Button crt_tv_channel_advertise_btn;
 
         /// <summary>
+        /// logout_btn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button logout_btn;
+
+        /// <summary>
         /// news_paper_advertise_panel_form control.
         /// </summary>
         /// <remarks>

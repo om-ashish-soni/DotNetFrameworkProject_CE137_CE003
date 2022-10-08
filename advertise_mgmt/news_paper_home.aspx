@@ -17,7 +17,13 @@
         h1{
             font-family: Papyrus;
         }
-        #signin_btn,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
+        span{
+            font-family: Papyrus;
+            font-size:40px;
+            font-weight:bolder;
+            margin-right:20px;
+        }
+        #logout_btn,#signin_btn,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
             color:white;
             background-color:orange;
             border-radius:10px;
@@ -25,6 +31,11 @@
             border:none;
             width:40%;
             font-size:24px;
+        }
+        #logout_btn{
+            width:10%;
+            background-color:tomato;
+            color:white;
         }
         #Email_Id_Input,#Password_Input,#Business_Name_Input{
             outline:none;
@@ -37,7 +48,10 @@
 <body>
     <center>
     <form id="form2" runat="server">
-        <h1>News Paper Home - Advertise Management System</h1>
+        <div>
+        <span>News Paper Home - Advertise Management System</span>
+        <asp:Button ID="logout_btn" runat="server" Text="Logout" OnClick="logout_btn_click" />
+        </div>
         <div>
             <asp:Panel ID="Panel2" runat="server">
                 <h2>Pending Advertise</h2>
@@ -48,18 +62,18 @@
         <asp:Panel ID="Panel3" runat="server">
             <br />
         </asp:Panel>
-        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" DataSourceID="accepted_advertise" AutoGenerateEditButton="True" OnRowUpdated="GridView3_RowUpdated" DataKeyNames="Id" CellPadding="4" ForeColor="#333333" GridLines="None" >
+        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" DataSourceID="accepted_advertise" AutoGenerateEditButton="True" OnRowUpdated="GridView3_RowUpdated" CellPadding="4" ForeColor="#333333" GridLines="None" >
             <AlternatingRowStyle BackColor="White" />
             <Columns>
-                <asp:BoundField DataField="Id" HeaderText="Id" SortExpression="Id" InsertVisible="False" ReadOnly="True" />
-                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ReadOnly="True"/>
-                <asp:BoundField DataField="Business_Name" HeaderText="Business_Name" SortExpression="Business_Name" ReadOnly="True"/>
-                <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" ReadOnly="True"/>
+                
+                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"/>
+                <asp:BoundField DataField="Business_Name" HeaderText="Business_Name" SortExpression="Business_Name"/>
+                <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source"/>
                 <asp:BoundField DataField="Reason" HeaderText="Reason" SortExpression="Reason" />
-                <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type" ReadOnly="True"/>
+                <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type"/>
                 <asp:BoundField DataField="Accepted" HeaderText="Accepted" SortExpression="Accepted" />
                 <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" ReadOnly="True"/>
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date"/>
             </Columns>
             <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
             <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
@@ -72,8 +86,7 @@
             <SortedDescendingHeaderStyle BackColor="#820000" />
         </asp:GridView>
         <asp:SqlDataSource ID="accepted_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            SelectCommand="SELECT * FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([News_Paper_Id] = @News_Paper_Id))"
-            UpdateCommand="Update [News_Paper_Advertise] Set [Reason]=@Reason,[Accepted]=@Accepted,[Cost]=@Cost WHERE [Id]=@Id"
+            SelectCommand="SELECT [Name], [Business_Name], [Source], [Reason], [Add_Type], [Accepted], [Cost], [Date] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([News_Paper_Id] = @News_Paper_Id))"
             >
             <SelectParameters>
                 <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
@@ -85,7 +98,7 @@
         <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" AutoGenerateEditButton="True" DataSourceID="not_accepted"  DataKeyNames="Id" CellPadding="4" ForeColor="#333333" GridLines="None">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
-                <asp:BoundField DataField="Id" HeaderText="Id" SortExpression="Id" ReadOnly="true" InsertVisible="False"/>
+                
                 <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"/>
                 <asp:BoundField DataField="Business_Name" HeaderText="Business_Name" SortExpression="Business_Name" />
                 <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source"/>

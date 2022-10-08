@@ -18,6 +18,7 @@
         }
         h1{
             font-family: Papyrus;
+            display:inline;
         }
         #Button1,#login_btn,#signin_redirect_btn,#signin_btn,#news_add_submit_btn,#news_add_submit_btn0,#login_redirect_btn,#go_back_btn,#crt_news_channel_advertise_btn,#crt_tv_channel_advertise_btn{
             color:white;
@@ -28,45 +29,29 @@
             width:40%;
             font-size:24px;
         }
-        #Tv_Channel_Name_Input,#Email_Id_Input,#Password_Input,#Business_Name_Input{
+        #logout_btn,#Tv_Channel_Name_Input,#Email_Id_Input,#Password_Input,#Business_Name_Input{
             outline:none;
             border:none;     
-            border-bottom:2px solid black;
             font-size:20px;
+            border-radius:10px;
+        }
+        #logout_btn{
+            width:10%;
+            background-color:tomato;
+            color:white;
+            margin-left:20px;
         }
     </style>
 </head>
 <body>
     <center>
-    <h1>Tv Channel Home - Advertise Management System</h1>
+    
+    
     <form id="form2" runat="server">
-        <!--
         <div>
-            <asp:Panel ID="Panel2" runat="server">
-                Pending Advertise<br />
-            </asp:Panel>
+        <h1>Tv Channel Home - Advertise Management System</h1>
+        <asp:Button ID="logout_btn" runat="server" Text="Logout" OnClick="logout_btn_click" />
         </div>
-        
-        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" AutoGenerateEditButton="True" >
-            <Columns>
-                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                <asp:BoundField DataField="Business_Id" HeaderText="Business_Id" SortExpression="Business_Id" />
-                <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
-                <asp:BoundField DataField="Frequency" HeaderText="Frequency" SortExpression="Frequency" />
-                <asp:BoundField DataField="Accepted" HeaderText="Accepted" SortExpression="Accepted" />
-            </Columns>
-        </asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            SelectCommand="SELECT [Name], [Business_Id], [Source], [Date], [Frequency], [Accepted] FROM [Tv_Channel_Advertise] WHERE (([Tv_Channel_Id] = @Tv_Channel_Id) AND ([Accepted] = @Accepted))"
-            UpdateCommand="Update [Tv_Channel_Advertise] Set [Accepted]=@Accepted">
-            <SelectParameters>
-                <asp:CookieParameter CookieName="tv_channel_cookie" Name="Tv_Channel_Id" Type="Int32" />
-                <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
-            </SelectParameters>
-        </asp:SqlDataSource>
-        <br />
-        -->
         <asp:Panel ID="Panel3" runat="server">
             <h2>Accepted Advertise</h2>
         </asp:Panel>
