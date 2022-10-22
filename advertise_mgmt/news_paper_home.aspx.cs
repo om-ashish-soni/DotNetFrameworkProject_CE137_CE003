@@ -28,5 +28,7 @@ namespace advertise_mgmt
             Response.Cookies["news_paper_id_cookie"].Expires = DateTime.Now.AddDays(-1);
             Response.Redirect("login_options.aspx");
         }
+
+        
     }
 }

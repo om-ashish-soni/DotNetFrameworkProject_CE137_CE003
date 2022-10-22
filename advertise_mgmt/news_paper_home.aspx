@@ -62,18 +62,19 @@
         <asp:Panel ID="Panel3" runat="server">
             <br />
         </asp:Panel>
-        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" DataSourceID="accepted_advertise" AutoGenerateEditButton="True" OnRowUpdated="GridView3_RowUpdated" CellPadding="4" ForeColor="#333333" GridLines="None" >
+        <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" DataSourceID="not_accepted" AutoGenerateEditButton="True" OnRowUpdated="GridView3_RowUpdated" CellPadding="4" ForeColor="#333333" GridLines="None" >
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 
-                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"/>
-                <asp:BoundField DataField="Business_Name" HeaderText="Business_Name" SortExpression="Business_Name"/>
-                <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source"/>
+                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ReadOnly/>
+                <asp:BoundField DataField="Business_Name" HeaderText="Business_Name" SortExpression="Business_Name" ReadOnly/>
+                <asp:BoundField DataField="Source" HeaderText="Source" SortExpression="Source" ReadOnly/>
                 <asp:BoundField DataField="Reason" HeaderText="Reason" SortExpression="Reason" />
-                <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type"/>
+                <asp:BoundField DataField="Add_Type" HeaderText="Add_Type" SortExpression="Add_Type" ReadOnly/>
                 <asp:BoundField DataField="Accepted" HeaderText="Accepted" SortExpression="Accepted" />
                 <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date"/>
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" ReadOnly/>
+                <asp:BoundField DataField="Id" HeaderText="Id" ReadOnly="False" SortExpression="Id" />
             </Columns>
             <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
             <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
@@ -86,16 +87,17 @@
             <SortedDescendingHeaderStyle BackColor="#820000" />
         </asp:GridView>
         <asp:SqlDataSource ID="accepted_advertise" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            SelectCommand="SELECT [Name], [Business_Name], [Source], [Reason], [Add_Type], [Accepted], [Cost], [Date] FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([News_Paper_Id] = @News_Paper_Id))"
+            SelectCommand="SELECT * FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([News_Paper_Id] = @News_Paper_Id))"
+            UpdateCommand="Update [News_Paper_Advertise] Set [Accepted]=@Accepted,[Cost]=@Cost WHERE [Id]=@Id"
             >
             <SelectParameters>
-                <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
+                <asp:Parameter DefaultValue="Yes" Name="Accepted" Type="String" />
                 <asp:CookieParameter CookieName="news_paper_id_cookie" Name="News_Paper_Id" Type="Int32" />
             </SelectParameters>
         </asp:SqlDataSource>
         <br />
         <h2>Accepted Advertise</h2>
-        <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" AutoGenerateEditButton="True" DataSourceID="not_accepted"  DataKeyNames="Id" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" AutoGenerateEditButton="True" DataSourceID="accepted_advertise"  DataKeyNames="Id" CellPadding="4" ForeColor="#333333" GridLines="None"     >
             <AlternatingRowStyle BackColor="White" />
             <Columns>
                 
@@ -107,6 +109,7 @@
                 <asp:BoundField DataField="Accepted" HeaderText="Accepted" SortExpression="Accepted" />
                 <asp:BoundField DataField="Cost" HeaderText="Cost" SortExpression="Cost" />
                 <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+                <asp:BoundField DataField="Id" HeaderText="Id" ReadOnly="False" SortExpression="Id" />
             </Columns>
             <EditRowStyle BackColor="#7C6F57" />
             <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
@@ -120,12 +123,13 @@
             <SortedDescendingHeaderStyle BackColor="#15524A" />
         </asp:GridView>
         <asp:SqlDataSource ID="not_accepted" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
-            SelectCommand="SELECT * FROM [News_Paper_Advertise] WHERE (([News_Paper_Id] = @News_Paper_Id) AND ([Accepted] = @Accepted))"
+            SelectCommand="SELECT * FROM [News_Paper_Advertise] WHERE (([Accepted] = @Accepted) AND ([News_Paper_Id] = @News_Paper_Id))"
+            UpdateCommand="Update [News_Paper_Advertise] Set [Accepted]=@Accepted,[Reason]=@Reason,[Cost]=@Cost WHERE [Id]=@Id"
             >
 
             <SelectParameters>
+                <asp:Parameter DefaultValue="No" Name="Accepted" Type="String" />
                 <asp:CookieParameter CookieName="news_paper_id_cookie" Name="News_Paper_Id" Type="Int32" />
-                <asp:Parameter DefaultValue="Yes" Name="Accepted" Type="String" />
             </SelectParameters>
             
         </asp:SqlDataSource>

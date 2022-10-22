@@ -112,7 +112,7 @@
         </asp:GridView>
         <asp:SqlDataSource ID="not_accepted" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
             SelectCommand="SELECT * FROM [Tv_Channel_Advertise] WHERE (([Accepted] = @Accepted) AND ([Tv_Channel_Id] = @Tv_Channel_Id))"
-            UpdateCommand="Update [Tv_Channel_Advertise] Set [Accepted]=@Accepted,[Cost]=@Cost WHERE [Id]=@Id"
+            UpdateCommand="Update [Tv_Channel_Advertise] Set [Accepted]=@Accepted,[Reason]=@Reason,[Cost]=@Cost WHERE [Id]=@Id"
             >
 
             <SelectParameters>
